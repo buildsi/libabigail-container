@@ -1,0 +1,34 @@
+name: Build and Deploy containers
+
+on:
+  # Always test on pull request
+  pull_request: []
+
+  # Deploy on merge to main
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-test-containers:
+    runs-on: ubuntu-latest
+    name: Build Container
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build Libabigail Container
+        run: |
+          version=$(cat VERSION)
+          docker build -t ghcr.io/buildsi/libabigail:2.0 .
+          docker build --build-arg LIBRARY_VERSION=${version} -t ghcr.io/buildsi/libabigail:${version} .
+
+      - name: Login and Deploy Test Container
+        if: (github.event_name != 'pull_request')
+        run: |
+          version=$(cat VERSION)
+          docker tag ghcr.io/buildsi/libabigail:${version} ghcr.io/buildsi/libabigail:latest
+          docker images
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+          docker push ghcr.io/buildsi/libabigail:${version}
+          docker push ghcr.io/buildsi/libabigail:latest
