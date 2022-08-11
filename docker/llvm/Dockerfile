@@ -1,9 +1,10 @@
-ARG llvm_version
+ENV org.opencontainers.image.source="https://github.com/buildsi/libabigail-container"ARG llvm_version
 FROM silkeh/clang:${llvm_version} as builder
 
 # docker build --build-arg gcc_version 4.9.3 --build-arg LIBRARY_VERSION=2.0 -t ghcr.io/buildsi/libabigail:2.0 .
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV org.opencontainers.image.source="https://github.com/buildsi/libabigail-container"
 ARG LIBRARY_VERSION=2.0
 RUN apt-get update && apt-get install -y build-essential \
     curl \
@@ -35,5 +36,4 @@ RUN ldconfig && \
     cd build && \
     ../configure --prefix=/usr/local && \
     make all install && \
-    ldconfig    
-
+    ldconfig
