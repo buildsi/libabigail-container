@@ -1,4 +1,4 @@
-ENV org.opencontainers.image.source="https://github.com/buildsi/libabigail-container"ARG llvm_version
+ARG llvm_version
 FROM silkeh/clang:${llvm_version} as builder
 
 # docker build --build-arg gcc_version 4.9.3 --build-arg LIBRARY_VERSION=2.0 -t ghcr.io/buildsi/libabigail:2.0 .
