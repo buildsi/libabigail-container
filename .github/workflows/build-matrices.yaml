@@ -86,7 +86,7 @@ jobs:
     - name: Prepare ${{ matrix.result.container_name }}
       id: builder
       env:
-        container: libabigail-${{ matrix.result.container_name }}
+        container: ${{ matrix.result.container_name }}
         prefix: ${{ matrix.result.command_prefix }}
         filename: ${{ matrix.result.filename }}
       run: |
