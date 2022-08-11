@@ -1,12 +1,12 @@
-FROM ubuntu:22.04 as builder
+ARG ubuntu_version
+FROM ubuntu:${ubuntu_version} as builder
 
-# docker build --build-arg LIBRARY_VERSION=2.0 -t ghcr.io/buildsi/libabigail:2.0 .
+# docker build --build-arg gcc_version 4.9.3 --build-arg LIBRARY_VERSION=2.0 -t ghcr.io/buildsi/libabigail:2.0 .
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV org.opencontainers.image.source="https://github.com/buildsi/libabigail-container" 
+ENV org.opencontainers.image.source="https://github.com/buildsi/libabigail-container"
 ARG LIBRARY_VERSION=2.0
 RUN apt-get update && apt-get install -y build-essential \
-    clang \
     curl \
     libelf-dev \
     libzip-dev \
@@ -25,7 +25,8 @@ RUN apt-get update && apt-get install -y build-essential \
     python3 \
     python3-dev \
     python3-sphinx \
-    python3-pip
+    python3-pip \
+    g++
 
 RUN ldconfig && \ 
     wget http://mirrors.kernel.org/sourceware/libabigail/libabigail-${LIBRARY_VERSION}.tar.gz && \

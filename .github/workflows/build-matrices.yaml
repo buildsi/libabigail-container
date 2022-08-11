@@ -1,4 +1,4 @@
-name: GCC Build Matrices
+name: Container Build Matrices
 
 on: 
   push:
@@ -69,10 +69,8 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
       
-    - name: Make Space For Build
-      run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
+    - name: Run Actions Cleaner
+      uses: rse-ops/actions-cleaner/ubuntu@main
 
     - name: Pull Docker Layers
       env:
@@ -88,7 +86,7 @@ jobs:
     - name: Prepare ${{ matrix.result.container_name }}
       id: builder
       env:
-        container: ${{ matrix.result.container_name }}
+        container: libabigail-${{ matrix.result.container_name }}
         prefix: ${{ matrix.result.command_prefix }}
         filename: ${{ matrix.result.filename }}
       run: |
