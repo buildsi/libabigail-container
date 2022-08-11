@@ -1,0 +1,7 @@
+dockerbuild:
+  build_args:
+    intel_version:
+      key: intel
+      versions:
+       - "2022.2-devel-ubuntu20.04"
+       - "2021.4-devel-ubuntu18.04"
