@@ -1,0 +1,10 @@
+dockerbuild:
+
+  build_args:
+    fedora_version:
+      key: fedora
+      versions:
+       - "34"
+       - "35"
+       - "36"
+       - "37"
