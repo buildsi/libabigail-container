@@ -19,8 +19,8 @@ RUN dnf install -y \
     shared-mime-info \
     six \
     wget
-    
 
+RUN dnf install -y redhat-rpm-config || echo "Not in distribution"
 RUN ldconfig && \ 
     wget http://mirrors.kernel.org/sourceware/libabigail/libabigail-${LIBRARY_VERSION}.tar.gz && \
     tar -xvf libabigail-${LIBRARY_VERSION}.tar.gz && \
