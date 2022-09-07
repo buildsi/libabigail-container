@@ -1,4 +1,4 @@
-name: Container Build Matrices
+name: Fedora Builds
 
 on: 
   push:

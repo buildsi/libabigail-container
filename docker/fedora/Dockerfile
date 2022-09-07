@@ -41,7 +41,9 @@ RUN ldconfig && \
     make -j4 && \
     make install
 
-FROM fedora:latest
+
+ARG fedora_version
+FROM fedora:${version}
 COPY --from=builder /opt/libabigail /opt/libabigail
 ENV PATH=/opt/libabigail/bin:$PATH
 
