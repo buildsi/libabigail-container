@@ -37,5 +37,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Deploy
-      if: (github.event_name != 'pull_request')
-      run: docker push ghcr.io/vsoch/citelang:latest
+#      if: (github.event_name != 'pull_request')
+      env:
+        version: ${{ matrix.version }}
+      run: docker push ghcr.io/buildsi/fedora-${version}:latest
