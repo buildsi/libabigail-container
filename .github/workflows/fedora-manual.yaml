@@ -1,0 +1,41 @@
+name: Container Build Matrices
+
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request: []
+
+jobs:
+  generate:
+    name: Generate Build Matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ["34", "35", "36", "37"]
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+         fetch-depth: 0
+
+    - name: Build Container
+      env:
+        version: ${{ matrix.version }}
+      run: |
+         cd docker/fedora
+         docker build --build-arg fedora_version=${version} -t ghcr.io/buildsi/fedora-${version}:latest .
+
+    - name: GHCR Login
+      if: (github.event_name != 'pull_request')
+      uses: docker/login-action@v1 
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Deploy
+      if: (github.event_name != 'pull_request')
+      run: docker push ghcr.io/vsoch/citelang:latest
