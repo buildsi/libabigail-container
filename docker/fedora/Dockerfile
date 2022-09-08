@@ -41,8 +41,6 @@ RUN ldconfig && \
     make -j4 && \
     make install
 
-FROM fedora:latest
-COPY --from=builder /opt/libabigail /opt/libabigail
 ENV PATH=/opt/libabigail/bin:$PATH
 
 # Runtime dependencies

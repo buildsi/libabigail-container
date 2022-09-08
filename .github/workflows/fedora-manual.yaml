@@ -1,4 +1,4 @@
-name: Container Build Matrices
+name: Fedora Builds
 
 on: 
   push:
@@ -38,4 +38,6 @@ jobs:
 
     - name: Deploy
       if: (github.event_name != 'pull_request')
-      run: docker push ghcr.io/vsoch/citelang:latest
+      env:
+        version: ${{ matrix.version }}
+      run: docker push ghcr.io/buildsi/fedora-${version}:latest
